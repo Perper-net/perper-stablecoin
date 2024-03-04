@@ -55,7 +55,7 @@ contract Perper is
     bytes32 public constant BLOCKLISTER_ROLE = keccak256("BLOCKLISTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant UNPAUSER_ROLE = keccak256("UNPAUSER_ROLE");
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant TOKEN_ISSUER_ROLE = keccak256("TOKEN_ISSUER_ROLE");
     bytes32 public constant BLOCKED_ROLE = keccak256("BLOCKED_ROLE");
     bytes32 public constant RESCUER_ROLE = keccak256("RESCUER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
@@ -78,7 +78,7 @@ contract Perper is
      * @param blocklister Address for whom to give the blocklister role
      * @param pauser Address for whom to give the pauser role
      * @param unpauser Address for whom to give the unpauser role
-     * @param minter Address for whom to give the minter role
+     * @param tokesIssuer Address for whom to give the tokesIssuer role
      */
     function initialize(
         address proxyOwner,
@@ -86,7 +86,7 @@ contract Perper is
         address blocklister,
         address pauser,
         address unpauser,
-        address minter,
+        address tokesIssuer,
         address rescuer,
         address burner
     ) external initializer {
@@ -102,7 +102,7 @@ contract Perper is
         _grantRole(BLOCKLISTER_ROLE, blocklister);
         _grantRole(PAUSER_ROLE, pauser);
         _grantRole(UNPAUSER_ROLE, unpauser);
-        _grantRole(MINTER_ROLE, minter);
+        _grantRole(TOKEN_ISSUER_ROLE, tokesIssuer);
         _grantRole(RESCUER_ROLE, rescuer);
         _grantRole(BURNER_ROLE, burner);
 
@@ -176,7 +176,7 @@ contract Perper is
     function mint(
         address account,
         uint256 amount
-    ) external onlyRole(MINTER_ROLE) {
+    ) external onlyRole(TOKEN_ISSUER_ROLE) {
         _mint(account, amount);
     }
 
@@ -192,7 +192,7 @@ contract Perper is
         uint256[] calldata amounts,
         uint256 id,
         bytes32 checksum
-    ) external onlyRole(MINTER_ROLE) {
+    ) external onlyRole(TOKEN_ISSUER_ROLE) {
         require(targets.length == amounts.length, "Unmatching mint lengths");
         require(targets.length > 0, "Nothing to mint");
 
